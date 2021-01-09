@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('config');
 const dbURI = config.get('mongoURI');
-const Shorturl = require('../models/Auction');
+const Auction = require('../models/Auction');
+const Bidder = require('../models/Bidder');
 
 // mongoose.connect(db);
 

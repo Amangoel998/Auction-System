@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
       context: ./auctioneer
     container_name: auction-system
-    image: auction-system
+    image: auctioneer
     command: npm start
     restart: always
     ports:
@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
       context: ./bidder
     container_name: bid-system1
-    image: bid-system
+    image: bidder
     command: npm start
     restart: always
     ports:
@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
       context: ./bidder
     container_name: bid-system2
-    image: bid-system
+    image: bidder
     command: npm start
     ports:
       - "8082:3000"
@@ -40,7 +40,7 @@ services:
       dockerfile: Dockerfile
       context: ./bidder
     container_name: bid-system3
-    image: bid-system
+    image: bidder
     command: npm start
     ports:
       - "8083:3000"

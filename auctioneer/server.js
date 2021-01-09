@@ -1,25 +1,18 @@
-const express = require("express");
-const { connectDB } = require("./config/db");
+const express = require('express');
 const app = express();
+const { connectDB } = require('./config/db');
 const bodyParser = require('body-parser')
 
-
-//Connect Database
 connectDB();
 
-//Init Middleware
+app.use(bodyParser.json({ limit: '10mb' }));
 
 app.get("/", (req, res) => res.status(200));
 
-// Define Routes
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/users", require("./routes/users"));
-app.use("/api/songs", require("./routes/songs"));
-app.use("/api/images", require("./routes/images"));
-app.use("/api/artists", require("./routes/artists"));
-app.use("/api/topsongs", require("./routes/topsongs"));
-app.use("/api/topartists", require("./routes/topartists"));
+app.use("/register", require("./routes/register"));
+app.use("/list", require("./routes/list"));
+app.use("/bid", require("./routes/bid"));
+app.use("/manage", require("./routes/manage"));
 
-const PORT = process.env.PORT || 3000;
-
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
