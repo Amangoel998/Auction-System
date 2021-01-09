@@ -1,0 +1,53 @@
+version: "3"
+services:
+  auctioneer:
+    build:
+      dockerfile: Dockerfile
+      context: ./auctioneer
+    container_name: auction-system
+    image: auction-system
+    command: npm start
+    restart: always
+    ports:
+      - "8080:3000"
+    links:
+      - mongo
+  bidder01:
+    build:
+      dockerfile: Dockerfile
+      context: ./bidder
+    container_name: bid-system1
+    image: bid-system
+    command: npm start
+    restart: always
+    ports:
+      - "8081:3000"
+    links:
+      - mongo
+  bidder02:
+    build:
+      dockerfile: Dockerfile
+      context: ./bidder
+    container_name: bid-system2
+    image: bid-system
+    command: npm start
+    ports:
+      - "8082:3000"
+    links:
+      - mongo
+  bidder03:
+    build:
+      dockerfile: Dockerfile
+      context: ./bidder
+    container_name: bid-system3
+    image: bid-system
+    command: npm start
+    ports:
+      - "8083:3000"
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
