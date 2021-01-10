@@ -1,9 +1,23 @@
 const express = require('express');
-const db = require('./config/db');
-const check = require('express-validator').check;
-const url = require('url');
+const app = express();
+const bodyParser = require('body-parser')
+const { registerItself, makeBidding } = require('./config/db')
+app.use(bodyParser.json({ limit: '10mb' }));
 
-const { connectDB } = require('./config/db');
+app.get("/", (req, res) => res.status(200));
 
-//Connect Database
-connectDB();
+registerItself();
+app.post("/registerToAuction", async (req, res) => {
+    try {
+        if (req.body.auction_id){
+            const result = await makeBidding(req.body.auction_id);
+            console.log(result)
+            res.send(result)
+        }
+    } catch (e) {
+        res.status(500).send(e.message)
+    }
+})
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));

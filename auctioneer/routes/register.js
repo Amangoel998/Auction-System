@@ -47,9 +47,7 @@ async function makeBidder(req, res) {
         const bidderObject = await createBidder(req.body.name);
         res.json({
             bidder_id: bidderObject.bidder_id,
-            bidder_name: bidderObject.bidder_name,
-            reg_auctions: bidderObject.reg_auctions,
-            auctions_won: bidderObject.auctions_won,
+            bidder_name: bidderObject.bidder_name
         })
     } catch (e) {
         res.status(500).send(e.error.message)

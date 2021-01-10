@@ -4,7 +4,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./auctioneer
-    container_name: auction-system
+    container_name: auctioneer
     image: auctioneer
     command: npm start
     restart: always
@@ -16,7 +16,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./bidder
-    container_name: bid-system1
+    container_name: bidder1
     image: bidder
     command: npm start
     restart: always
@@ -28,7 +28,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./bidder
-    container_name: bid-system2
+    container_name: bidder2
     image: bidder
     command: npm start
     ports:
@@ -39,7 +39,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./bidder
-    container_name: bid-system3
+    container_name: bidder3
     image: bidder
     command: npm start
     ports:
