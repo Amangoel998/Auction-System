@@ -1,0 +1,400 @@
+{
+	"info": {
+		"_postman_id": "a385ce2e-be55-406b-9f4b-59549f315d56",
+		"name": "Auction-Bidder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "Test - Find Winner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/test/findWinner?auction_id=XdL_OWbV4",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"test",
+								"findWinner"
+							],
+							"query": [
+								{
+									"key": "auction_id",
+									"value": "XdL_OWbV4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test - Register Auction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Car Auction\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/test/registerAuction",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"test",
+								"registerAuction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test - Registered Bidders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/test/registeredAuctions?auction_id=XdL_OWbV4",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"test",
+								"registeredAuctions"
+							],
+							"query": [
+								{
+									"key": "auction_id",
+									"value": "XdL_OWbV4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test - Get Bidders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/test/bidders",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"test",
+								"bidders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test - Create Bidder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"klmno\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/test/createBidder",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"test",
+								"createBidder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test-Register Bidder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"auction_id\":\"XdL_OWbV4\",\r\n    \"bidder_id\": \"ZbcC11aUt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/test/registerBidder",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"test",
+								"registerBidder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test - Make Bidding",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"auction_id\":\"XdL_OWbV4\",\r\n    \"bidder_id\":\"ZbcC11aUt\",\r\n    \"amount\":101.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/test/makeBidding",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"test",
+								"makeBidding"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Server",
+			"item": [
+				{
+					"name": "Create Auction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Car Auction\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/register/registerAuction",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register",
+								"registerAuction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open Auction",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"auction_id\":\"um1hpDW-F\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/manage/openAuction",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"manage",
+								"openAuction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bid Winner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/bid/winner?auction_id=um1hpDW-F",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"bid",
+								"winner"
+							],
+							"query": [
+								{
+									"key": "auction_id",
+									"value": "um1hpDW-F"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bidder",
+			"item": [
+				{
+					"name": "RegisterToAuction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"auction_id\":\"um1hpDW-F\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/registerToAuction",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"registerToAuction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Registered Auctions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ":::3001/getRegisteredAuctions",
+							"host": [
+								"::"
+							],
+							"port": "3001",
+							"path": [
+								"getRegisteredAuctions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bid In Auction",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": ":::3001/bidInAuction",
+							"host": [
+								"::"
+							],
+							"port": "3001",
+							"path": [
+								"bidInAuction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make Bid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"auction_id\": \"um1hpDW-F\",\r\n    \"amount\": 400,\r\n    \"timems\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": ":::3001/makeBid",
+							"host": [
+								"::"
+							],
+							"port": "3001",
+							"path": [
+								"makeBid"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

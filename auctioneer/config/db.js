@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('config');
 const dbURI = config.get('mongoURI');
+const http = require('http')
 const { Auction, Bidding } = require('../models/Auction');
 const Bidder = require('../models/Bidder');
 
@@ -35,11 +36,42 @@ const registerBidder = async (auction_id, bidder_id) => {
     throw new Error(e);
   }
 }
+function requestBidders(hostname, auction_id) {
+  return new Promise((resolve, reject) => {
+    http.request(`http://${hostname}/bidInAuction/?auction_id=${auction_id}`, res => {
+      let data = ""
+      res.on("data", d => {
+        data += d
+      })
+      res.on("end", () => {
+        data = JSON.parse(data)
+        try{
+          resolve(makeBidding(auction_id, data.bidder_id, data.bidder_value))
+        }catch(e){
+          reject(e.message)
+        }
+      })
+    }).end();
+  });
+}
 const openBidding = async (auction_id) => {
   try {
-    const found_auction = await Auction.findOneAndUpdate({ auction_id }, { is_open: true });
-    let bidder = await found_bidder.save();
-    return bidder
+    const found_bidder = await Auction.findOneAndUpdate({ auction_id }, { is_open: true });
+    await found_bidder.save();
+    let bidders = await found_bidder.populate({path:'reg_bidders', select:'bidder_name'}).execPopulate();
+    bidders = bidders.toObject().reg_bidders;
+    const promises = []
+    bidders.forEach(e=>{
+      promises.push(requestBidders(e.bidder_name, auction_id));
+    });
+    const result = await new Promise((reject, resolve)=>{
+      setTimeout(
+        ()=>Promise.all(promises),
+        200
+      )
+    });
+    console.log(result)
+    return result;
   } catch (e) {
     throw new Error(e);
   }
@@ -60,7 +92,7 @@ const makeBidding = async (auction_id, bidder_id, amount) => {
       throw new Error("Bidder doesn't exists");
     const found_auction = await Auction.findOne({ "auction_id": auction_id, "reg_bidders": found_bidder._id });
     if (found_auction == null)
-      throw new Error("Auction doesn't exists");
+      throw new Error("Bidder isn't registered in the Auction");
     const duplicate_bidding = await Auction.findOne({ "auction_id": auction_id, "biddings.bidder": found_bidder._id });
     if (duplicate_bidding) {
       console.log(duplicate_bidding)
@@ -68,7 +100,7 @@ const makeBidding = async (auction_id, bidder_id, amount) => {
     }
     if (!found_auction.is_open)
       throw new Error("Bidding not opened")
-    if (!found_auction.has_expired)
+    if (found_auction.has_expired)
       throw new Error("Auction has Expired")
     const newBidding = new Bidding({ bidder: found_bidder._id, amount })
     const result = await found_auction.biddings.addToSet(newBidding);
@@ -85,6 +117,7 @@ const findWinnerBidder = async (auction_id) => {
       throw new Error("Auction doesn't exists");
     found_auction = found_auction.toObject().biddings.sort((a, b) => b.amount - a.amount)[0]
     const found_bidder = await Bidder.findById(found_auction.bidder)
+    console.log(found_bidder)
     if (!found_bidder)
       throw new Error("Bidder doesn't exists");
     return {

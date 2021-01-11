@@ -1,11 +1,10 @@
 const config = require('nconf');
 const http = require("http")
 
-const registerItself = async () => {
-  const rand = Math.random(10) * 10;
-  var body = JSON.stringify({
-    name: "bidder" + rand.toFixed()
-  });
+const registerItself = async (name) => {
+  // name = name.address+
+  name = "127.0.0.1:"+name.port
+  var body = JSON.stringify({name});
   config.file({ file: './default.json' });
   http.request(
     {
@@ -60,6 +59,23 @@ const registerBidding = async (auction_id) => {
     });
   }
 }
+const makeBidInAuction = async (auction_id) => {
+  var conf = JSON.parse(config.get(auction_id))
+  if(!conf){
+    throw new Error("Not made bid")
+  }
+  var body = {
+    bidder_id: config.get('bidderId'),
+    bidder_value: conf.amount
+  }
+  return new Promise((resolve, reject) => {
+    setTimeout(
+      resolve,
+      conf.timems,
+      body
+    );
+  });
+}
 const getRegisteredAuctions = async () => {
   return httprequest();
   function httprequest() {
@@ -67,7 +83,7 @@ const getRegisteredAuctions = async () => {
       const bidder_id = config.get('bidderId')
       http.request({
         hostname: "127.0.0.1",
-        path: "/list/registeredAuctions?bidder_id="+bidder_id,
+        path: `/list/registeredAuctions/?bidder_id=${bidder_id}`,
         port: 3000,
         method: 'GET',
         headers: {
@@ -90,8 +106,14 @@ const getRegisteredAuctions = async () => {
     });
   }
 }
+const makeBid = (auction_id, amount, timems)=>{
+  config.set(auction_id, JSON.stringify({auction_id, amount, timems}));
+  return "Sent Bid"
+}
 module.exports = {
   registerItself,
   registerBidding,
-  getRegisteredAuctions
+  getRegisteredAuctions,
+  makeBidInAuction,
+  makeBid
 };

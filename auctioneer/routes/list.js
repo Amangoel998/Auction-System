@@ -42,6 +42,7 @@ async function showRegisteredBidders(req, res) {
 async function showRegisteredAuctions(req, res) {
     try {
         const bidder_id = url.parse(req.url, true).query.bidder_id;
+        console.log(bidder_id)
         const auctionObject = await listRegisteredAuctions(bidder_id);
         res.json(auctionObject ?
             auctionObject.map(a => {

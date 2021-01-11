@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const url = require('url');
 const { check, validationResult } = require('express-validator');
 const {
     makeBidding,
@@ -15,7 +16,7 @@ async function createBidding(req, res) {
         const bidderObject = await makeBidding(req.body.auction_id, req.body.bidder_id, req.body.amount);
         res.json(bidderObject)
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
     }
 }
 async function showWinner(req, res) {
@@ -27,7 +28,7 @@ async function showWinner(req, res) {
         else
             res.send("No Biddings Won")
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
     }
 }
 router.post('/makeBidding', [
