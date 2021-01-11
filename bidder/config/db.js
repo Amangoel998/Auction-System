@@ -31,8 +31,8 @@ const registerItself = async () => {
     }
   ).end(body)
 }
-const makeBidding = async (auction_id) => {
-  return await httprequest();
+const registerBidding = async (auction_id) => {
+  return httprequest();
   function httprequest() {
     return new Promise((resolve, reject) => {
       var body = JSON.stringify({
@@ -60,7 +60,38 @@ const makeBidding = async (auction_id) => {
     });
   }
 }
+const getRegisteredAuctions = async () => {
+  return httprequest();
+  function httprequest() {
+    return new Promise((resolve, reject) => {
+      const bidder_id = config.get('bidderId')
+      http.request({
+        hostname: "127.0.0.1",
+        path: "/list/registeredAuctions?bidder_id="+bidder_id,
+        port: 3000,
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }, res => {
+        let data = ""
+        res.on("data", d => {
+          data += d
+        })
+        res.on("end", () => {
+          try{
+            data = data?JSON.parse(data):[]
+          }catch(e) {
+            data = e.message
+          }
+          resolve(data);
+        })
+      }).end();
+    });
+  }
+}
 module.exports = {
   registerItself,
-  makeBidding
+  registerBidding,
+  getRegisteredAuctions
 };

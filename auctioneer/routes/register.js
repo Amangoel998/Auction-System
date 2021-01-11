@@ -20,7 +20,7 @@ async function regAuction(req, res) {
             auction_name: auctionObject.auction_name,
         })
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
     }
 }
 async function regBidder(req, res) {
@@ -35,7 +35,7 @@ async function regBidder(req, res) {
         else
             res.send("Bidder Already registered for Bidding")
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
     }
 }
 async function makeBidder(req, res) {
@@ -50,7 +50,7 @@ async function makeBidder(req, res) {
             bidder_name: bidderObject.bidder_name
         })
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
     }
 }
 

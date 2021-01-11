@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const url = require('url');
 const {
     listAllAuctions,
     listAllBidders,
-    listRegisteredBidders
+    listRegisteredBidders,
+    listRegisteredAuctions
 } = require('../config/db');
+
+
 async function showAllBidders(req, res) {
     try {
         const bidderObject = await listAllBidders();
@@ -16,7 +20,7 @@ async function showAllBidders(req, res) {
             }
         }) : [])
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
     }
 }
 async function showRegisteredBidders(req, res) {
@@ -32,7 +36,23 @@ async function showRegisteredBidders(req, res) {
             })
             : [])
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
+    }
+}
+async function showRegisteredAuctions(req, res) {
+    try {
+        const bidder_id = url.parse(req.url, true).query.bidder_id;
+        const auctionObject = await listRegisteredAuctions(bidder_id);
+        res.json(auctionObject ?
+            auctionObject.map(a => {
+                return {
+                    auction_id: a.auction_id,
+                    auction_name: a.auction_name,
+                }
+            })
+            : [])
+    } catch (e) {
+        res.status(500).send(e.message)
     }
 }
 async function showAllAuctions(req, res) {
@@ -46,11 +66,12 @@ async function showAllAuctions(req, res) {
             }
         }) : []);
     } catch (e) {
-        res.status(500).send(e.error.message)
+        res.status(500).send(e.message)
     }
 }
 router.get('/auctions', showAllAuctions)
 router.get('/bidders', showAllBidders)
 router.get('/registeredBidders', showRegisteredBidders)
+router.get('/registeredAuctions', showRegisteredAuctions)
 
 module.exports = router;
