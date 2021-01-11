@@ -2,15 +2,14 @@ const config = require('nconf');
 const http = require("http")
 
 const registerItself = async (name) => {
-  // name = name.address+
-  name = "127.0.0.1:"+name.port
+  name = name.address+":"+name.port
   var body = JSON.stringify({name});
   config.file({ file: './default.json' });
   http.request(
     {
-      hostname: "127.0.0.1",
+      hostname: "auctioneer",
       path: "/register/createBidder",
-      port: 3000,
+      port: 8080,
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -39,9 +38,9 @@ const registerBidding = async (auction_id) => {
         bidder_id: config.get('bidderId')
       });
       http.request({
-        hostname: "127.0.0.1",
+        hostname: "auctioneer",
         path: "/register/registerBidder",
-        port: 3000,
+        port: 8080,
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
@@ -82,9 +81,9 @@ const getRegisteredAuctions = async () => {
     return new Promise((resolve, reject) => {
       const bidder_id = config.get('bidderId')
       http.request({
-        hostname: "127.0.0.1",
+        hostname: "auctioneer",
         path: `/list/registeredAuctions/?bidder_id=${bidder_id}`,
-        port: 3000,
+        port: 8080,
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
